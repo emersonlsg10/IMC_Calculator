@@ -29,17 +29,57 @@
       .input_item {
         margin-right: 20px;
       }
+
+      .imc_result_container {
+        display: none;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container_calculator_contact {
+        display: block;
+      }
     </style>
   </head>
   <body style="width: 100%">
     <div class="container_local">
       <form class="form_calculator">
-        <input type="number" min="0" name="peso" class="input_item" />
-        <input type="number" min="0" name="altura" class="input_item" />
+        <input
+          min="0"
+          placeholder="Digite seu peso"
+          name="peso"
+          class="input_item"
+        />
+        <input
+          min="0"
+          placeholder="Digite sua altura"
+          name="altura"
+          class="input_item"
+        />
         <button type="submit" class="button_item">
           REALIZAR CÁLCULO DE IMC
         </button>
       </form>
+
+      <div class="imc_result_container" id="imc_result_container">
+        <h3 class="imc_title">Seu IMC É:</h3>
+        <span id="imc_result_value"></span>
+        <span id="imc_result_text"></span>
+        <div class="container_calculator_contact">
+          <form class="calculator_contact">
+            <input
+              type="text"
+              placeholder="Digite seu nome"
+              name="nome"
+              class="input_item"
+            />
+            <button type="submit" class="button_item">
+              Entrar em contato via Whatsapp
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -56,24 +96,81 @@
 
     <!-- MY JS -->
     <script>
+      let altura_imc_calc = 0;
+      let peso_imc_cal = 0;
+      let nome_imc_calc = "";
+      let IMC_RESULT = 0;
+      let IMC_WHASTAPP_NUMBER = "";
+
       $(".form_calculator").on("submit", function (e) {
         e.preventDefault();
-        handleFormSubmit();
+        handleCalculateIMC();
       });
 
-      function handleFormSubmit() {
+      $(".calculator_contact").on("submit", function (e) {
+        e.preventDefault();
+        handleCalculatorContactForm();
+      });
+
+      function handleCalculateIMC() {
         // Get all the forms elements and their values in one step
         let formData = {};
         $.each($(".form_calculator").serializeArray(), function (i, field) {
           formData[field.name] = field.value;
         });
 
-        const altura = parseFloat(formData.altura);
-        const peso = parseFloat(formData.peso);
+        altura_imc_calc = parseFloat(formData.altura);
+        peso_imc_cal = parseFloat(formData.peso);
 
-        console.log(altura, peso);
-        // const spanTextButton = document.getElementById("text-send-msg");
-        // spanTextButton.innerText = "Enviando...";
+        IMC_RESULT = (
+          peso_imc_cal /
+          (altura_imc_calc * altura_imc_calc)
+        ).toFixed(2);
+
+        console.log(altura_imc_calc, peso_imc_cal);
+        const spanIMCResultValue = document.getElementById("imc_result_value");
+        spanIMCResultValue.innerText = ` ${IMC_RESULT}`;
+
+        const spanIMCResultText = document.getElementById("imc_result_text");
+        spanIMCResultText.innerText = `Nível Considerado ${resultTextIMC(
+          IMC_RESULT
+        )}`;
+
+        const classContainerResult = document.getElementById(
+          "imc_result_container"
+        );
+
+        classContainerResult.style.display = "flex";
+      }
+
+      function resultTextIMC(imc) {
+        if (imc < 18.5) return "BAIXO PESO";
+        if (imc >= 18.5 && imc <= 24.9) return "PESO NORMAL";
+        if (imc >= 25 && imc <= 29.9) return "SOBREPESO";
+        if (imc >= 30 && imc <= 34.9) return "OBESIDADE GRAU 1";
+        if (imc >= 35 && imc <= 39.9) return "OBESIDADE GRAU 2";
+        if (imc >= 40) return "OBESIDADE MÓRBIDA";
+      }
+
+      function handleCalculatorContactForm() {
+        // Get all the forms elements and their values in one step
+        let formData = {};
+        $.each($(".calculator_contact").serializeArray(), function (i, field) {
+          formData[field.name] = field.value;
+        });
+
+        nome_imc_calc = formData.nome;
+
+        console.log(nome_imc_calc, "nome_imc_calc");
+
+        const TEXT_SEND_WHATSAPP = `Olá, meu nome é ${nome_imc_calc} e meu IMC é de ${IMC_RESULT}, considerado como ${resultTextIMC(
+          IMC_RESULT
+        )}. Gostaria de fazer um agendamento.`;
+
+        //
+        window.open(
+          `https://wa.me/55${IMC_WHASTAPP_NUMBER}?text=${TEXT_SEND_WHATSAPP}`
+        );
       }
     </script>
   </body>
