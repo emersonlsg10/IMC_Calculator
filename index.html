@@ -208,8 +208,8 @@
           formData[field.name] = field.value;
         });
 
-        altura_imc_calc = parseFloat(formData.altura);
-        peso_imc_cal = parseFloat(formData.peso);
+        altura_imc_calc = parseFloat(formData.altura.replace(",", "."));
+        peso_imc_cal = parseFloat(formData.peso.replace(",", "."));
 
         IMC_RESULT = (
           peso_imc_cal /
