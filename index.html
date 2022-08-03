@@ -11,11 +11,24 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
+  </head>
+  <body class="body_temp">
     <style>
-      .container_local {
+      .body_temp {
         width: 100%;
-        height: 300px;
-        background-color: aquamarine;
+        display: flex;
+        justify-content: center;
+      }
+
+      .imc_container_local {
+        margin-top: 20px;
+        padding: 15px;
+        height: auto;
+        max-width: 800px;
+        border-width: 1px;
+        border-color: #008da3;
+        border-style: solid;
+        border-radius: 5px;
       }
 
       .form_calculator {
@@ -33,49 +46,125 @@
       .imc_result_container {
         display: none;
         width: 100%;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
       }
 
       .container_calculator_contact {
         display: block;
       }
+
+      .button_imc_container {
+        margin-top: 14px;
+      }
+
+      .imc_result_box_1 {
+        display: flex;
+        align-items: center;
+      }
+
+      .imc_title {
+        color: #2a3869;
+        font-family: "Roboto";
+        font-size: 22px;
+        font-weight: 500;
+      }
+
+      #imc_result_value {
+        color: #2a3869;
+        font-family: "Roboto";
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      #imc_result_text {
+        color: #2a3869;
+        font-family: "Roboto";
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .text_enter_your_name {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        color: #2a3869;
+        font-family: "Roboto";
+        font-size: 22px;
+        font-weight: 500;
+      }
+
+      .label_imc_calculator {
+        color: #2a3869;
+        font-weight: 600;
+      }
     </style>
-  </head>
-  <body style="width: 100%">
-    <div class="container_local">
+
+    <div class="imc_container_local">
       <form class="form_calculator">
-        <input
-          min="0"
-          placeholder="Digite seu peso"
-          name="peso"
-          class="input_item"
-        />
-        <input
-          min="0"
-          placeholder="Digite sua altura"
-          name="altura"
-          class="input_item"
-        />
-        <button type="submit" class="button_item">
-          REALIZAR CÁLCULO DE IMC
-        </button>
+        <div class="form-group input_item">
+          <label for="email" class="label-form-group label_imc_calculator"
+            >Qual seu peso ?</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="peso"
+            name="peso"
+            aria-describedby="emailHelp"
+            placeholder="Digite seu peso"
+            required
+          />
+        </div>
+
+        <div class="form-group input_item">
+          <label for="email" class="label-form-group label_imc_calculator"
+            >Qual sua altura ?</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="altura"
+            name="altura"
+            aria-describedby="emailHelp"
+            placeholder="Digite sua altura"
+            required
+          />
+        </div>
+        <div class="button_imc_container">
+          <button type="submit" class="btn btn-primary">
+            REALIZAR CÁLCULO DE IMC
+          </button>
+        </div>
       </form>
 
       <div class="imc_result_container" id="imc_result_container">
-        <h3 class="imc_title">Seu IMC É:</h3>
-        <span id="imc_result_value"></span>
+        <div class="imc_result_box_1">
+          <span class="imc_title">Seu IMC É: &nbsp; </span>
+          <span id="imc_result_value"></span>
+        </div>
         <span id="imc_result_text"></span>
         <div class="container_calculator_contact">
           <form class="calculator_contact">
-            <input
-              type="text"
-              placeholder="Digite seu nome"
-              name="nome"
-              class="input_item"
-            />
-            <button type="submit" class="button_item">
-              Entrar em contato via Whatsapp
+            <h4 class="text_enter_your_name">
+              Para continuar o atendimento, preencha o campo abaixo e clique em
+              continuar.
+            </h4>
+            <div class="form-group">
+              <label for="email" class="label-form-group label_imc_calculator"
+                >Qual sua nome ?</label
+              >
+              <input
+                type="text"
+                class="form-control input_item"
+                id="nome"
+                name="nome"
+                aria-describedby="emailHelp"
+                placeholder="Digite seu nome"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              Continuar via Whatsapp
             </button>
           </form>
         </div>
@@ -125,14 +214,14 @@
         IMC_RESULT = (
           peso_imc_cal /
           (altura_imc_calc * altura_imc_calc)
-        ).toFixed(2);
+        ).toFixed(1);
 
         console.log(altura_imc_calc, peso_imc_cal);
         const spanIMCResultValue = document.getElementById("imc_result_value");
         spanIMCResultValue.innerText = ` ${IMC_RESULT}`;
 
         const spanIMCResultText = document.getElementById("imc_result_text");
-        spanIMCResultText.innerText = `Nível Considerado ${resultTextIMC(
+        spanIMCResultText.innerText = ` Nível Considerado ${resultTextIMC(
           IMC_RESULT
         )}`;
 
