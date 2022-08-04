@@ -24,7 +24,7 @@
         margin-top: 20px;
         padding: 15px;
         height: auto;
-        max-width: 800px;
+        max-width: 1024px;
         border-width: 1px;
         border-color: #008da3;
         border-style: solid;
@@ -32,15 +32,20 @@
       }
 
       .form_calculator {
-        display: flex;
         width: 100%;
+        display: flex;
+        flex-wrap: wrap;
         align-items: center;
         justify-content: center;
         background-color: #fff;
       }
 
-      .input_item {
-        margin-right: 20px;
+      .container_imc_input_item {
+        margin-right: 40px;
+      }
+
+      .input_imc_item {
+        height: 50px;
       }
 
       .imc_result_container {
@@ -50,36 +55,56 @@
       }
 
       .container_calculator_contact {
-        display: block;
+        display: flex;
+        justify-content: center;
+      }
+
+      .calculator_contact {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .button_imc_container {
-        margin-top: 14px;
+        margin-top: 28px;
       }
 
+      .container_imc_input_contact {
+        height: 50px;
+        text-align: center;
+        margin-right: 20px;
+        max-width: 90%;
+      }
+      
       .imc_result_box_1 {
         display: flex;
+        flex-direction: column;
         align-items: center;
+        justify-content: center;
+
+        background: #f4f4f4;
+        margin: 20px 0px;
+        height: 150px;
       }
 
       .imc_title {
         color: #2a3869;
         font-family: "Roboto";
-        font-size: 22px;
-        font-weight: 500;
+        font-size: 28px;
+        font-weight: 700;
       }
 
       #imc_result_value {
-        color: #2a3869;
+        color: #008da3;
         font-family: "Roboto";
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
       }
 
       #imc_result_text {
         color: #2a3869;
         font-family: "Roboto";
-        font-size: 22px;
+        font-size: 18px;
         font-weight: 700;
       }
 
@@ -95,18 +120,19 @@
       .label_imc_calculator {
         color: #2a3869;
         font-weight: 600;
+        font-size: 25px;
       }
     </style>
 
     <div class="imc_container_local">
       <form class="form_calculator">
-        <div class="form-group input_item">
+        <div class="form-group container_imc_input_item">
           <label for="email" class="label-form-group label_imc_calculator"
-            >Qual seu peso ?</label
+            >Qual seu peso (Kg) ?</label
           >
           <input
             type="text"
-            class="form-control"
+            class="form-control input_imc_item"
             id="peso"
             name="peso"
             aria-describedby="emailHelp"
@@ -115,13 +141,13 @@
           />
         </div>
 
-        <div class="form-group input_item">
+        <div class="form-group container_imc_input_item">
           <label for="email" class="label-form-group label_imc_calculator"
-            >Qual sua altura ?</label
+            >Qual sua altura (m) ?</label
           >
           <input
             type="text"
-            class="form-control"
+            class="form-control input_imc_item"
             id="altura"
             name="altura"
             aria-describedby="emailHelp"
@@ -130,31 +156,32 @@
           />
         </div>
         <div class="button_imc_container">
-          <button type="submit" class="btn btn-primary">
-            REALIZAR CÁLCULO DE IMC
+          <button type="submit" class="btn btn-primary input_imc_item">
+            REALIZAR CÁLCULO DO IMC
           </button>
         </div>
       </form>
 
       <div class="imc_result_container" id="imc_result_container">
         <div class="imc_result_box_1">
-          <span class="imc_title">Seu IMC É: &nbsp; </span>
-          <span id="imc_result_value"></span>
+          <h2 class="imc_title">Resultado</h2>
+          <h3 id="imc_result_value"></h3>
+          <h4 id="imc_result_text"></h4>
         </div>
-        <span id="imc_result_text"></span>
+        <h2 style="font-size: 20px; text-align: center">
+          Quer conferir o tratamento mais indicado para obesidade </br> com base no
+          seu
+          <b style="color: #008da3">Índice de Massa Corporal (IMC)</b>?
+        </h2>
+        <p style="margin-top: 10px; font-size: 14px; text-align: center">
+          Preencha com seu nome e e-mail e receba o resultado!
+        </p>
         <div class="container_calculator_contact">
           <form class="calculator_contact">
-            <h4 class="text_enter_your_name">
-              Para continuar o atendimento, preencha o campo abaixo e clique em
-              continuar.
-            </h4>
             <div class="form-group">
-              <label for="email" class="label-form-group label_imc_calculator"
-                >Qual sua nome ?</label
-              >
               <input
                 type="text"
-                class="form-control input_item"
+                class="form-control container_imc_input_contact"
                 id="nome"
                 name="nome"
                 aria-describedby="emailHelp"
@@ -163,9 +190,23 @@
               />
             </div>
 
-            <button type="submit" class="btn btn-primary">
-              Continuar via Whatsapp
-            </button>
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control container_imc_input_contact"
+                id="email"
+                name="email"
+                aria-describedby="emailHelp"
+                placeholder="Digite seu email"
+                required
+              />
+            </div>
+
+            <div class="form-group">              
+              <button type="submit" class="btn btn-primary container_imc_input_contact">
+                Enviar
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -188,6 +229,7 @@
       let altura_imc_calc = 0;
       let peso_imc_cal = 0;
       let nome_imc_calc = "";
+      let email_imc_calc = "";
       let IMC_RESULT = 0;
       let IMC_WHASTAPP_NUMBER = "";
 
@@ -218,12 +260,10 @@
 
         console.log(altura_imc_calc, peso_imc_cal);
         const spanIMCResultValue = document.getElementById("imc_result_value");
-        spanIMCResultValue.innerText = ` ${IMC_RESULT}`;
+        spanIMCResultValue.innerText = `Seu IMC é ${IMC_RESULT}`;
 
         const spanIMCResultText = document.getElementById("imc_result_text");
-        spanIMCResultText.innerText = ` Nível Considerado ${resultTextIMC(
-          IMC_RESULT
-        )}`;
+        spanIMCResultText.innerText = `${resultTextIMC(IMC_RESULT)}`;
 
         const classContainerResult = document.getElementById(
           "imc_result_container"
@@ -249,12 +289,13 @@
         });
 
         nome_imc_calc = formData.nome;
+        email_imc_calc = formData.email;
 
         console.log(nome_imc_calc, "nome_imc_calc");
 
-        const TEXT_SEND_WHATSAPP = `Olá, meu nome é ${nome_imc_calc} e meu IMC é de ${IMC_RESULT}, considerado como ${resultTextIMC(
+        const TEXT_SEND_WHATSAPP = `Olá, meu nome é *${nome_imc_calc}* e meu IMC é de *${IMC_RESULT}*, considerado como *${resultTextIMC(
           IMC_RESULT
-        )}. Gostaria de fazer um agendamento.`;
+        )}*. Email: ${email_imc_calc}.`;
 
         //
         window.open(
